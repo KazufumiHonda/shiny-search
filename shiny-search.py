@@ -19,7 +19,8 @@ class ShinySearch:
 
     SWEET_POKE_POS = 2
     SWEET_MOVE_POS = 3
-    NORMAL_VALUE = 153.0889155844156
+    NORMAL_VALUE = 153.08891558441 # 通常ドーブル
+    #SIHIY_VALUE = 153.3019805194805 # 色違いドーブル
 
     def search(self):
         # 1. mgba画面を最前面にする
@@ -44,12 +45,12 @@ class ShinySearch:
             return False
 
         return False
-    
+
     def foregroundMGBA(self):
         pgui.click(100, 100)
         print('foregroundMGBA')
         time.sleep(1.0)
-    
+
     def sweetScent(self, poke_pos, move_pos=3):
         print('poke_pos: ', poke_pos, ' , move_pos: ', move_pos)
         # メニュー起動
@@ -70,7 +71,7 @@ class ShinySearch:
             self.pressButtonDown()
         self.pressButtonA()
         time.sleep(12.0)
-    
+
     def run(self):
         # A button(最初の遭遇画面)
         self.pressButtonA()
@@ -88,7 +89,7 @@ class ShinySearch:
         screen_shot = pgui.screenshot(region=(1250, 100, 700, 660))
         img = np.array(screen_shot, dtype=np.uint8)
         # 画像から平均値を求める
-        mean_val = img.mean() 
+        mean_val = img.mean()
         # その値をNORMAL_VALUEと比較
         # 一致していたら通常個体->False
         # 不一致の場合、非通常個体=色違い->True
@@ -97,7 +98,7 @@ class ShinySearch:
         else:
             print('shiny mean: ', mean_val)
             screen_shot.save('shiny.png')
-            return True 
+            return True
 
     def testKey(self):
         pgui.click(100, 100)
@@ -168,9 +169,12 @@ def main():
     ss = ShinySearch()
     #ss.search()
 
+    count = 0
     # main codes
     while(True):
         flag = ss.search()
+        count += 1
+        print('count: ', count)
         if flag:
             break
 
